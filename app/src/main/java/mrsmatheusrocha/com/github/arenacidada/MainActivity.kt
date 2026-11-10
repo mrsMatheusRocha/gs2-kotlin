@@ -3,7 +3,7 @@ package br.com.fiap.arenacidada
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material3.MaterialTheme
+
 import androidx.lifecycle.viewmodel.compose.viewModel
 import br.com.fiap.arenacidada.data.AppDatabase
 import br.com.fiap.arenacidada.ui.ArenaCidadaApp
@@ -17,7 +17,7 @@ class MainActivity : ComponentActivity() {
         val factory = ArenaViewModelFactory(database.courtDemandDao())
 
         setContent {
-            MaterialTheme {
+            mrsmatheusrocha.com.github.arenacidada.ui.theme.ArenaCidadaTheme {
                 val viewModel: ArenaViewModel = viewModel(factory = factory)
                 ArenaCidadaApp(viewModel)
             }
