@@ -1,11 +1,19 @@
 package br.com.fiap.arenacidada.ui
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.Notes
+import androidx.compose.material.icons.filled.Category
+import androidx.compose.material.icons.filled.Map
+import androidx.compose.material.icons.filled.Place
+import androidx.compose.material.icons.filled.Save
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -32,10 +40,10 @@ fun DemandFormScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Novo Registro na Quadra") },
+                title = { Text("Novo Registro") },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Voltar")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Voltar")
                     }
                 }
             )
@@ -45,9 +53,18 @@ fun DemandFormScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+                .padding(horizontal = 24.dp) // Mais respiro lateral
+                .verticalScroll(rememberScrollState()), // Permite rolagem em telas pequenas
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            Spacer(modifier = Modifier.height(8.dp))
+            
+            Text(
+                text = "Preencha os dados abaixo para registrar um problema ou ocorrência na sua comunidade.",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+
             OutlinedTextField(
                 value = courtName,
                 onValueChange = {
@@ -55,7 +72,12 @@ fun DemandFormScreen(
                     showError = false
                 },
                 label = { Text("Nome da Quadra ou Espaço Público *") },
+                placeholder = { Text("Ex: Quadra da Praça Central") },
+                leadingIcon = {
+                    Icon(imageVector = Icons.Default.Place, contentDescription = null)
+                },
                 isError = showError && courtName.isBlank(),
+                singleLine = true,
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -66,7 +88,12 @@ fun DemandFormScreen(
                     showError = false
                 },
                 label = { Text("Bairro / Região *") },
+                placeholder = { Text("Ex: Vila Mariana") },
+                leadingIcon = {
+                    Icon(imageVector = Icons.Default.Map, contentDescription = null)
+                },
                 isError = showError && neighborhood.isBlank(),
+                singleLine = true,
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -79,6 +106,9 @@ fun DemandFormScreen(
                     onValueChange = {},
                     readOnly = true,
                     label = { Text("Categoria *") },
+                    leadingIcon = {
+                        Icon(imageVector = Icons.Default.Category, contentDescription = null)
+                    },
                     trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -106,9 +136,14 @@ fun DemandFormScreen(
                     description = it
                     showError = false
                 },
-                label = { Text("Descrição detalhada da ocorrência *") },
+                label = { Text("Descrição detalhada *") },
+                placeholder = { Text("Descreva o que está quebrado, faltando, etc.") },
+                leadingIcon = {
+                    Icon(imageVector = Icons.AutoMirrored.Filled.Notes, contentDescription = null)
+                },
                 isError = showError && description.isBlank(),
-                minLines = 3,
+                minLines = 4,
+                maxLines = 6, // Permite que o campo cresça, mas não infinitamente
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -116,11 +151,12 @@ fun DemandFormScreen(
                 Text(
                     text = "Preencha todos os campos obrigatórios (*) antes de salvar.",
                     color = MaterialTheme.colorScheme.error,
-                    style = MaterialTheme.typography.bodySmall
+                    style = MaterialTheme.typography.bodySmall,
+                    fontWeight = FontWeight.Medium
                 )
             }
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.weight(1f))
 
             Button(
                 onClick = {
@@ -130,10 +166,15 @@ fun DemandFormScreen(
                         onSave(courtName, neighborhood, category, description)
                     }
                 },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                contentPadding = PaddingValues(16.dp)
             ) {
-                Text("Salvar Registro")
+                Icon(imageVector = Icons.Default.Save, contentDescription = null)
+                Spacer(modifier = Modifier.width(8.dp))
+                Text("Salvar Registro", fontWeight = FontWeight.Bold)
             }
+            
+            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }
