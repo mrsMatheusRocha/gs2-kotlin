@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -37,6 +38,25 @@ android {
 }
 
 dependencies {
+    val roomVersion = "2.6.1"
+    val navVersion = "2.8.3"
+    val lifecycleVersion = "2.8.6"
+
+    // Navigation Compose
+    implementation("androidx.navigation:navigation-compose:$navVersion")
+
+    // ViewModel Compose
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleVersion")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose:$lifecycleVersion")
+
+    // Room (Persistência Local)
+    implementation("androidx.room:room-runtime:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
+    ksp("androidx.room:room-compiler:$roomVersion")
+
+    // Material 3 e Ícones
+    implementation("androidx.compose.material:material-icons-extended")
+
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material3)
