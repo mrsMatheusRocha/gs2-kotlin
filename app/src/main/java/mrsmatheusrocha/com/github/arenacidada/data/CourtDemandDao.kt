@@ -9,11 +9,11 @@ interface CourtDemandDao {
     fun getAllDemands(): Flow<List<CourtDemandEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(demand: CourtDemandEntity)
+    suspend fun insert(demand: CourtDemandEntity): Long
 
     @Update
-    suspend fun update(demand: CourtDemandEntity)
+    suspend fun update(demand: CourtDemandEntity): Int
 
     @Delete
-    suspend fun delete(demand: CourtDemandEntity)
+    suspend fun delete(demand: CourtDemandEntity): Int
 }
