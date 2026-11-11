@@ -3,8 +3,8 @@
 Aplicativo Android desenvolvido para a **Global Solution 2026 (Desafio CitizenTech)** na disciplina de **Android Kotlin Developer** (FIAP).
 
 ## 👨‍💻 Integrantes da Equipe
-- **Nome Completo:** Matheus Rocha Sousa — **RM:** [PREENCHER RM]
-- **Nome Completo:** [PREENCHER SE HOUVER] — **RM:** [PREENCHER RM]
+- **Nome Completo:** Matheus Rocha Sousa — **RM:** 559201
+- **Nome Completo:** Luciano Henrique Gonçalves D'Oliveira — **RM:** 558975
 
 ---
 
