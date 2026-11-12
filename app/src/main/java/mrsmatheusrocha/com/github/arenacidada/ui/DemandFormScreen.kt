@@ -53,8 +53,8 @@ fun DemandFormScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .padding(horizontal = 24.dp) // Mais respiro lateral
-                .verticalScroll(rememberScrollState()), // Permite rolagem em telas pequenas
+                .padding(horizontal = 24.dp)
+                .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Spacer(modifier = Modifier.height(8.dp))
