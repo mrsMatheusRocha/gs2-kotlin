@@ -14,7 +14,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val database = AppDatabase.getDatabase(this)
-        val factory = ArenaViewModelFactory(database.courtDemandDao())
+        val factory = ArenaViewModelFactory(database.courtDemandDao(), database.colaboradorDao())
 
         setContent {
             mrsmatheusrocha.com.github.arenacidada.ui.theme.ArenaCidadaTheme {

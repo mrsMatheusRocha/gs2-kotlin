@@ -4,15 +4,27 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import br.com.fiap.arenacidada.data.CourtDemandDao
+import br.com.fiap.arenacidada.data.ColaboradorDao
 import br.com.fiap.arenacidada.data.CourtDemandEntity
+import br.com.fiap.arenacidada.data.ColaboradorEntity
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-class ArenaViewModel(private val dao: CourtDemandDao) : ViewModel() {
+class ArenaViewModel(
+    private val demandDao: CourtDemandDao,
+    private val colaboradorDao: ColaboradorDao
+) : ViewModel() {
 
-    val demands: StateFlow<List<CourtDemandEntity>> = dao.getAllDemands()
+    val demands: StateFlow<List<CourtDemandEntity>> = demandDao.getAllDemands()
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = emptyList()
+        )
+
+    val colaboradores: StateFlow<List<ColaboradorEntity>> = colaboradorDao.getAllColaboradores()
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
@@ -26,7 +38,7 @@ class ArenaViewModel(private val dao: CourtDemandDao) : ViewModel() {
         description: String
     ) {
         viewModelScope.launch {
-            dao.insert(
+            demandDao.insert(
                 CourtDemandEntity(
                     courtName = courtName.trim(),
                     neighborhood = neighborhood.trim(),
@@ -37,24 +49,45 @@ class ArenaViewModel(private val dao: CourtDemandDao) : ViewModel() {
         }
     }
 
+    fun addColaborador(nome: String, especialidade: String, telefone: String) {
+        viewModelScope.launch {
+            colaboradorDao.insert(
+                ColaboradorEntity(
+                    nome = nome.trim(),
+                    especialidade = especialidade.trim(),
+                    telefone = telefone.trim()
+                )
+            )
+        }
+    }
+
+    fun allocateColaborador(demand: CourtDemandEntity, colaborador: ColaboradorEntity) {
+        viewModelScope.launch {
+            demandDao.update(demand.copy(allocatedTo = colaborador.nome))
+        }
+    }
+
     fun toggleStatus(demand: CourtDemandEntity) {
         viewModelScope.launch {
-            dao.update(demand.copy(isResolved = !demand.isResolved))
+            demandDao.update(demand.copy(isResolved = !demand.isResolved))
         }
     }
 
     fun deleteDemand(demand: CourtDemandEntity) {
         viewModelScope.launch {
-            dao.delete(demand)
+            demandDao.delete(demand)
         }
     }
 }
 
-class ArenaViewModelFactory(private val dao: CourtDemandDao) : ViewModelProvider.Factory {
+class ArenaViewModelFactory(
+    private val demandDao: CourtDemandDao,
+    private val colaboradorDao: ColaboradorDao
+) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(ArenaViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return ArenaViewModel(dao) as T
+            return ArenaViewModel(demandDao, colaboradorDao) as T
         }
         throw IllegalArgumentException("ViewModel desconhecida")
     }

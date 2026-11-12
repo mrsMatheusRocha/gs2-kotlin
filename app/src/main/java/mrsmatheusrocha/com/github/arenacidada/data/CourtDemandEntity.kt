@@ -11,5 +11,6 @@ data class CourtDemandEntity(
     val neighborhood: String,
     val category: String,
     val description: String,
-    val isResolved: Boolean = false
+    val isResolved: Boolean = false,
+    val allocatedTo: String? = null
 )

@@ -16,16 +16,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import br.com.fiap.arenacidada.data.CourtDemandEntity
+import br.com.fiap.arenacidada.data.ColaboradorEntity
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ColaboradoresScreen(
     demands: List<CourtDemandEntity>,
+    colaboradores: List<ColaboradorEntity>,
     onNavigateToNewColaborador: () -> Unit,
+    onAllocate: (CourtDemandEntity, ColaboradorEntity) -> Unit,
     onBack: () -> Unit
 ) {
     var showDialog by remember { mutableStateOf(false) }
     var selectedDemand by remember { mutableStateOf<CourtDemandEntity?>(null) }
+    var selectedColaborador by remember { mutableStateOf<ColaboradorEntity?>(null) }
 
     Scaffold(
         topBar = {
@@ -105,6 +109,15 @@ fun ColaboradoresScreen(
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
+                            Spacer(modifier = Modifier.height(8.dp))
+                            if (demand.allocatedTo != null) {
+                                Text(
+                                    text = "Alocado para: ${demand.allocatedTo}",
+                                    style = MaterialTheme.typography.labelLarge,
+                                    color = MaterialTheme.colorScheme.primary,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
                             Spacer(modifier = Modifier.height(12.dp))
                             Button(
                                 onClick = {
@@ -115,7 +128,7 @@ fun ColaboradoresScreen(
                             ) {
                                 Icon(Icons.Default.AssignmentTurnedIn, contentDescription = null, modifier = Modifier.size(18.dp))
                                 Spacer(modifier = Modifier.width(8.dp))
-                                Text("Alocar Colaborador")
+                                Text(if (demand.allocatedTo != null) "Re-alocar Colaborador" else "Alocar Colaborador")
                             }
                         }
                     }
@@ -126,18 +139,60 @@ fun ColaboradoresScreen(
 
     if (showDialog && selectedDemand != null) {
         AlertDialog(
-            onDismissRequest = { showDialog = false },
-            title = { Text("Alocar Colaborador") },
-            text = { 
-                Text("Deseja alocar um colaborador disponível para a ocorrência na ${selectedDemand?.courtName}?\n\n(Nesta versão, a alocação é apenas demonstrativa).") 
+            onDismissRequest = { 
+                showDialog = false 
+                selectedColaborador = null
+            },
+            title = { Text("Selecione um Colaborador") },
+            text = {
+                if (colaboradores.isEmpty()) {
+                    Text("Você ainda não possui nenhum colaborador cadastrado.")
+                } else {
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        colaboradores.forEach { colab ->
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                RadioButton(
+                                    selected = selectedColaborador == colab,
+                                    onClick = { selectedColaborador = colab }
+                                )
+                                Column {
+                                    Text(text = colab.nome, fontWeight = FontWeight.Bold)
+                                    Text(text = colab.especialidade, style = MaterialTheme.typography.bodySmall)
+                                }
+                            }
+                        }
+                    }
+                }
             },
             confirmButton = {
-                TextButton(onClick = { showDialog = false }) {
-                    Text("Confirmar Alocação")
+                if (colaboradores.isEmpty()) {
+                    TextButton(onClick = { showDialog = false }) {
+                        Text("OK")
+                    }
+                } else {
+                    TextButton(
+                        onClick = { 
+                            selectedColaborador?.let { onAllocate(selectedDemand!!, it) }
+                            showDialog = false 
+                            selectedColaborador = null
+                        },
+                        enabled = selectedColaborador != null
+                    ) {
+                        Text("Confirmar")
+                    }
                 }
             },
             dismissButton = {
-                TextButton(onClick = { showDialog = false }) {
+                TextButton(onClick = { 
+                    showDialog = false 
+                    selectedColaborador = null
+                }) {
                     Text("Cancelar")
                 }
             }

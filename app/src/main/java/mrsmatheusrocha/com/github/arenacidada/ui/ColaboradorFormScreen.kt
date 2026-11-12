@@ -23,6 +23,7 @@ fun ColaboradorFormScreen(
     var especialidade by remember { mutableStateOf("") }
     var telefone by remember { mutableStateOf("") }
     var showError by remember { mutableStateOf(false) }
+    var showSuccessDialog by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -103,6 +104,7 @@ fun ColaboradorFormScreen(
                         showError = true
                     } else {
                         onSave(nome, especialidade, telefone)
+                        showSuccessDialog = true
                     }
                 },
                 modifier = Modifier.fillMaxWidth(),
@@ -113,5 +115,21 @@ fun ColaboradorFormScreen(
                 Text("Cadastrar Colaborador", fontWeight = FontWeight.Bold)
             }
         }
+    }
+
+    if (showSuccessDialog) {
+        AlertDialog(
+            onDismissRequest = { },
+            title = { Text("Sucesso!") },
+            text = { Text("O colaborador $nome foi cadastrado com sucesso.") },
+            confirmButton = {
+                TextButton(onClick = { 
+                    showSuccessDialog = false
+                    onBack()
+                }) {
+                    Text("OK")
+                }
+            }
+        )
     }
 }

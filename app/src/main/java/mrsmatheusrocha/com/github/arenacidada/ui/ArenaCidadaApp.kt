@@ -12,6 +12,7 @@ import br.com.fiap.arenacidada.viewmodel.ArenaViewModel
 fun ArenaCidadaApp(viewModel: ArenaViewModel) {
     val navController = rememberNavController()
     val demands by viewModel.demands.collectAsStateWithLifecycle()
+    val colaboradores by viewModel.colaboradores.collectAsStateWithLifecycle()
 
     NavHost(navController = navController, startDestination = "start") {
         composable("start") {
@@ -32,15 +33,18 @@ fun ArenaCidadaApp(viewModel: ArenaViewModel) {
         composable("colaboradores") {
             ColaboradoresScreen(
                 demands = demands,
+                colaboradores = colaboradores,
                 onNavigateToNewColaborador = { navController.navigate("colaborador_form") },
+                onAllocate = { demand, colab -> 
+                    viewModel.allocateColaborador(demand, colab) 
+                },
                 onBack = { navController.popBackStack() }
             )
         }
         composable("colaborador_form") {
             ColaboradorFormScreen(
                 onSave = { nome, cargo, telefone ->
-                    // Aqui ficaria a lógica de salvar o colaborador futuramente
-                    navController.popBackStack()
+                    viewModel.addColaborador(nome, cargo, telefone)
                 },
                 onBack = { navController.popBackStack() }
             )
