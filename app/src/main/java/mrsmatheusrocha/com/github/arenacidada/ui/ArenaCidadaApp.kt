@@ -13,13 +13,25 @@ fun ArenaCidadaApp(viewModel: ArenaViewModel) {
     val navController = rememberNavController()
     val demands by viewModel.demands.collectAsStateWithLifecycle()
 
-    NavHost(navController = navController, startDestination = "home") {
+    NavHost(navController = navController, startDestination = "start") {
+        composable("start") {
+            StartScreen(
+                onNavigateToDemandas = { navController.navigate("home") },
+                onNavigateToColaboradores = { navController.navigate("colaboradores") }
+            )
+        }
         composable("home") {
             HomeScreen(
                 totalCount = demands.size,
                 resolvedCount = demands.count { it.isResolved },
                 onNavigateToList = { navController.navigate("list") },
-                onNavigateToForm = { navController.navigate("form") }
+                onNavigateToForm = { navController.navigate("form") },
+                onBack = { navController.popBackStack() }
+            )
+        }
+        composable("colaboradores") {
+            ColaboradoresScreen(
+                onBack = { navController.popBackStack() }
             )
         }
         composable("list") {

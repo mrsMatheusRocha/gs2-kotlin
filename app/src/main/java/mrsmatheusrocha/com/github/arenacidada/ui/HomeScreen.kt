@@ -5,6 +5,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Assignment
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.EmojiEvents
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,12 +19,18 @@ fun HomeScreen(
     totalCount: Int,
     resolvedCount: Int,
     onNavigateToList: () -> Unit,
-    onNavigateToForm: () -> Unit
+    onNavigateToForm: () -> Unit,
+    onBack: () -> Unit
 ) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Arena Cidadã") }
+                title = { Text("Arena Cidadã") },
+                navigationIcon = {
+                    IconButton(onClick = onBack) {
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Voltar")
+                    }
+                }
             )
         }
     ) { padding ->
