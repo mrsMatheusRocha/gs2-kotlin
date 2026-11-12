@@ -2,26 +2,26 @@
 
 Aplicativo Android desenvolvido para a **Global Solution 2026 (Desafio CitizenTech)** na disciplina de **Android Kotlin Developer** (FIAP).
 
-## 👨‍💻 Integrantes da Equipe
+## Integrantes da Equipe
 - **Nome Completo:** Matheus Rocha Sousa — **RM:** 559201
 - **Nome Completo:** Luciano Henrique Gonçalves D'Oliveira — **RM:** 558975
 
 ---
 
-## 🎯 Problema e Público Beneficiado
+## Problema e Público Beneficiado
 Quadras e centros desportivos públicos sofrem frequentemente com problemas de manutenção (iluminação queimada, alambrados danificados, piso irregular) e com a falta de um canal simples para a comunidade registar ocorrências e acompanhar a resolução das demandas.
 
 O **Arena Cidadã** beneficia diretamente **moradores locais, atletas amadores de fim de semana, líderes comunitários e zeladores**, permitindo registar solicitações por espaço desportivo, acompanhar prioridades e atualizar o estado de cada ocorrência.
 
 ---
 
-## 🌍 Conexão com os ODS da ONU (Agenda 2030)
+## Conexão com os ODS da ONU (Agenda 2030)
 - **ODS 3 — Saúde e Bem-Estar:** Ao facilitar a conservação de quadras e espaços públicos de lazer, a solução incentiva a prática regular de atividades físicas e o convívio saudável na comunidade.
 - **ODS 11 — Cidades e Comunidades Sustentáveis:** Promove a zeladoria participativa e o acesso seguro, inclusivo e democrático aos espaços públicos urbanos.
 
 ---
 
-## ⚙️ Funcionalidades Implementadas
+## Funcionalidades Implementadas
 1. **Ecrã Inicial (`HomeScreen`):** Apresentação da proposta CitizenTech, resumo em tempo real do total de registos e de demandas atendidas, e atalhos rápidos de navegação.
 2. **Listagem e Acompanhamento (`DemandListScreen`):**
    - Exibição dos registos em `LazyColumn` com indicação clara de estado vazio (*empty state*).
@@ -34,7 +34,7 @@ O **Arena Cidadã** beneficia diretamente **moradores locais, atletas amadores d
 
 ---
 
-## 🛠️ Tecnologias e Arquitetura Utilizadas
+## Tecnologias e Arquitetura Utilizadas
 - **Linguagem:** Kotlin
 - **Interface:** Jetpack Compose + Material 3 (com tipografia personalizada *Poppins*)
 - **Navegação:** Navigation Compose (`NavHost` / `NavController`)
@@ -48,7 +48,7 @@ O **Arena Cidadã** beneficia diretamente **moradores locais, atletas amadores d
 
 ---
 
-## 📸 Demonstração e Evidências de Funcionamento
+## Demonstração e Evidências de Funcionamento
 
 > Substitua os caminhos abaixo pelas capturas de ecrã reais da aplicação no emulador:
 
@@ -66,7 +66,7 @@ O **Arena Cidadã** beneficia diretamente **moradores locais, atletas amadores d
 
 ---
 
-## ▶️ Instruções para Executar o Projeto
+## Instruções para Executar o Projeto
 1. Descompacte o ficheiro `.zip` e abra a pasta `gs2-kotlin-main` no **Android Studio (Ladybug ou superior)**.
 2. Aguarde a sincronização automática do Gradle (`Gradle Sync`).
 3. Selecione um emulador ou dispositivo físico com **Android 8.0 (API 26)** ou superior.
