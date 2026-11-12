@@ -31,6 +31,17 @@ fun ArenaCidadaApp(viewModel: ArenaViewModel) {
         }
         composable("colaboradores") {
             ColaboradoresScreen(
+                demands = demands,
+                onNavigateToNewColaborador = { navController.navigate("colaborador_form") },
+                onBack = { navController.popBackStack() }
+            )
+        }
+        composable("colaborador_form") {
+            ColaboradorFormScreen(
+                onSave = { nome, cargo, telefone ->
+                    // Aqui ficaria a lógica de salvar o colaborador futuramente
+                    navController.popBackStack()
+                },
                 onBack = { navController.popBackStack() }
             )
         }
