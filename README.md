@@ -56,24 +56,44 @@ O **Arena Cidadã** beneficia diretamente **moradores locais, atletas amadores d
 
 ---
 
-## Demonstração e Evidências de Funcionamento
+## Como Funciona o App (Manual de Uso e Demonstração)
 
-> Insira na pasta `/docs` as imagens abaixo:
+Abaixo estão detalhados os principais fluxos de uso do **Arena Cidadã**, ilustrados com as capturas de tela do aplicativo em funcionamento.
 
-1. **Tela de Boas-vindas (StartScreen) e Dashboard:**
-   ![Start e Home](docs/print_home.png)
+### 1. Acesso Inicial e Dashboard
+Ao abrir o app, o usuário é recebido pela **Tela de Boas-vindas**, que centraliza a navegação em dois grandes módulos: **Acompanhar Demandas** (focado na infraestrutura das quadras) e **Gestão de Colaboradores** (focado na mão de obra).
+Acessando o painel de demandas, o usuário visualiza o **Dashboard principal**, onde constam cards informativos com o número exato de solicitações totais e solicitações já resolvidas na comunidade, lidas em tempo real do banco de dados local.
 
-2. **Cadastro com Menu Dropdown, Ícones e Validações:**
-   ![Cadastro de Demanda](docs/print_form.png)
+![Start e Home](docs/print_home.png)
 
-3. **Listagem com Empty State e Alteração de Status (Pendente/Resolvido):**
-   ![Listagem e Status](docs/print_list_status.png)
+### 2. Cadastro de Ocorrências (Quadras)
+Ao tocar em "Registrar Nova Ocorrência", o app exibe um formulário padronizado. Para evitar dados inconsistentes, o formulário conta com:
+- **Ícones semânticos** em todos os campos.
+- **Menu Dropdown** (lista suspensa) limitando a Categoria a opções válidas (ex: Iluminação, Alambrado, Limpeza).
+- **Validação de preenchimento:** O app emite um aviso vermelho caso o usuário tente salvar a demanda com campos obrigatórios em branco.
+
+![Cadastro de Demanda](docs/print_form.png)
+
+### 3. Listagem Inteligente e Atualização de Status
+Todas as ocorrências registradas vão para a tela de **Demandas das Quadras**.
+- **Empty State:** Se não houver registros, o app exibe uma ilustração convidativa.
+- **Chips Coloridos:** Na listagem, as demandas pendentes são marcadas em **Laranja**, enquanto as já resolvidas ficam destacadas em **Verde**, facilitando a triagem visual.
+- **Gestão Ágil:** O usuário pode alternar o status do chamado ("Concluir" ou "Reabrir") ou excluir a demanda permanentemente usando os botões inferiores no próprio card.
+
+![Listagem e Status](docs/print_list_status.png)
    
-4. **Módulo de Colaboradores (Cadastro e Tela de Alocação de Pessoal):**
-   ![Gestão de Colaboradores](docs/print_colaboradores.png)
+### 4. Módulo de Colaboradores e Alocação de Pessoal
+Este módulo resolve o desafio de direcionar mão de obra para os chamados:
+- Pelo botão flutuante, o usuário cadastra o **Nome, Cargo e Telefone** de voluntários ou trabalhadores da zeladoria.
+- A tela principal deste módulo **filtra automaticamente** e exibe apenas as demandas das quadras que estão **Pendentes**.
+- Ao clicar em **"Alocar Colaborador"**, um *Dialog* aparece listando as pessoas cadastradas. O usuário escolhe um responsável por meio do *radio button*, e a demanda é instantaneamente atualizada com o nome de quem irá realizar o serviço.
 
-5. **Evidência de Persistência com Room (Após fechar e reabrir a aplicação):**
-   ![Persistência Room](docs/print_persisted.png)
+![Gestão de Colaboradores](docs/print_colaboradores.png)
+
+### 5. Banco de Dados Local (Persistência com Room)
+Graças à arquitetura robusta com **Room Database, Coroutines e ViewModel**, o aplicativo não perde nenhuma informação. Todas as quadras inseridas, colaborações alocadas e exclusões são salvas permanentemente no aparelho.
+
+![Persistência Room](docs/print_persisted.png)
 
 ---
 
