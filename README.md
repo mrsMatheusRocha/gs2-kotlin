@@ -58,42 +58,49 @@ O **Arena Cidadã** beneficia diretamente **moradores locais, atletas amadores d
 
 ## Como Funciona o App (Manual de Uso e Demonstração)
 
-Abaixo estão detalhados os principais fluxos de uso do **Arena Cidadã**, ilustrados com as capturas de tela do aplicativo em funcionamento.
+Abaixo estão detalhados os principais fluxos de uso do **Arena Cidadã**, guiando o usuário passo a passo. O sistema foi desenvolvido para ser extremamente intuitivo e garantir que nenhum dado seja perdido, graças à persistência com o Room Database.
 
-### 1. Acesso Inicial e Dashboard
-Ao abrir o app, o usuário é recebido pela **Tela de Boas-vindas**, que centraliza a navegação em dois grandes módulos: **Acompanhar Demandas** (focado na infraestrutura das quadras) e **Gestão de Colaboradores** (focado na mão de obra).
-Acessando o painel de demandas, o usuário visualiza o **Dashboard principal**, onde constam cards informativos com o número exato de solicitações totais e solicitações já resolvidas na comunidade, lidas em tempo real do banco de dados local.
+### 1. Início e Dashboard de Demandas
 
-![Start e Home](docs/print_home.png)
+Assim que o aplicativo é iniciado e carrega os dados salvos localmente (evidência de persistência), o usuário se depara com a **Tela de Boas-vindas (`StartScreen`)**. Nela, há duas opções principais:
 
-### 2. Cadastro de Ocorrências (Quadras)
-Ao tocar em "Registrar Nova Ocorrência", o app exibe um formulário padronizado. Para evitar dados inconsistentes, o formulário conta com:
-- **Ícones semânticos** em todos os campos.
-- **Menu Dropdown** (lista suspensa) limitando a Categoria a opções válidas (ex: Iluminação, Alambrado, Limpeza).
-- **Validação de preenchimento:** O app emite um aviso vermelho caso o usuário tente salvar a demanda com campos obrigatórios em branco.
+*   **Acompanhar Demandas:** Para gerenciar e registrar problemas nas quadras.
+*   **Gestão de Colaboradores:** Para registrar equipes e alocá-las aos serviços.
 
-![Cadastro de Demanda](docs/print_form.png)
+Ao tocar em **Acompanhar Demandas**, o usuário visualiza o **Dashboard principal**. Nele, estão os indicadores com estatísticas em tempo real, informando o total de chamados abertos pela comunidade e quantos já foram atendidos. 
 
-### 3. Listagem Inteligente e Atualização de Status
-Todas as ocorrências registradas vão para a tela de **Demandas das Quadras**.
-- **Empty State:** Se não houver registros, o app exibe uma ilustração convidativa.
-- **Chips Coloridos:** Na listagem, as demandas pendentes são marcadas em **Laranja**, enquanto as já resolvidas ficam destacadas em **Verde**, facilitando a triagem visual.
-- **Gestão Ágil:** O usuário pode alternar o status do chamado ("Concluir" ou "Reabrir") ou excluir a demanda permanentemente usando os botões inferiores no próprio card.
+<img src="docs/print_persisted.png" width="220" /> &nbsp; &nbsp; <img src="docs/print_home.png" width="220" />
 
-![Listagem e Status](docs/print_list_status.png)
+### 2. Registrar Ocorrência e Listagem
+
+Na tela de Dashboard, se o usuário quiser reportar um novo problema, ele clica em **"Registrar Nova Ocorrência"**. 
+*   O app exibe um formulário validado, impedindo o envio de informações incompletas. 
+*   Ele conta com um **Menu Dropdown** para categorias, evitando erros de digitação.
+
+Ao salvar e voltar ao menu, clicando em **"Acompanhar Quadras e Demandas"**, o usuário cai na tela de Listagem.
+*   As demandas aparecem em cartões bem estruturados.
+*   O status visual é claro: **Laranja** para Pendente, **Verde** para Resolvido.
+
+<img src="docs/print_form.png" width="220" /> &nbsp; &nbsp; <img src="docs/print_list_status.png" width="220" />
    
-### 4. Módulo de Colaboradores e Alocação de Pessoal
-Este módulo resolve o desafio de direcionar mão de obra para os chamados:
-- Pelo botão flutuante, o usuário cadastra o **Nome, Cargo e Telefone** de voluntários ou trabalhadores da zeladoria.
-- A tela principal deste módulo **filtra automaticamente** e exibe apenas as demandas das quadras que estão **Pendentes**.
-- Ao clicar em **"Alocar Colaborador"**, um *Dialog* aparece listando as pessoas cadastradas. O usuário escolhe um responsável por meio do *radio button*, e a demanda é instantaneamente atualizada com o nome de quem irá realizar o serviço.
+### 3. Gestão e Alocação de Colaboradores
 
-![Gestão de Colaboradores](docs/print_colaboradores.png)
+Retornando à tela inicial de boas-vindas e entrando em **"Gestão de Colaboradores"**:
+*   O usuário pode cadastrar um novo trabalhador/voluntário (nome, especialidade, telefone) usando o botão flutuante, que exibe um alerta de sucesso ao concluir.
+*   A tela principal de gestão automaticamente filtra as demandas das quadras que **estão pendentes**.
+*   Clicando no botão **"Alocar Colaborador"** em uma demanda, o app abre um diálogo de seleção com a lista de colaboradores recém-cadastrados.
+*   Ao selecionar o colaborador e confirmar, a demanda fica amarrada àquele profissional, e essa informação (ex: *"Alocado para: João"*) aparecerá em destaque na lista para facilitar o acompanhamento.
 
-### 5. Banco de Dados Local (Persistência com Room)
-Graças à arquitetura robusta com **Room Database, Coroutines e ViewModel**, o aplicativo não perde nenhuma informação. Todas as quadras inseridas, colaborações alocadas e exclusões são salvas permanentemente no aparelho.
+<img src="docs/print_colaborador_form.png" width="220" /> &nbsp; &nbsp; <img src="docs/print_colaboradores_alocar.png" width="220" />
 
-![Persistência Room](docs/print_persisted.png)
+### 4. Resolução da Demanda
+
+De volta à lista de demandas (pela primeira opção da tela inicial), o usuário visualiza o status final atualizado e pode concluir a gestão do chamado.
+*   Após o colaborador terminar o serviço, basta clicar em **"Concluir"**. A demanda fica verde e a contagem no dashboard principal é atualizada em tempo real.
+*   Quando resolvida, a demanda some da fila de ocorrências pendentes na tela de Gestão de Colaboradores.
+*   É possível reabrir a demanda caso o problema retorne, ou excluí-la de forma definitiva usando o ícone da lixeira (apagando do Room DB de vez).
+
+<img src="docs/print_list_resolved.png" width="220" /> &nbsp; &nbsp; <img src="docs/print_colaboradores_empty.png" width="220" />
 
 ---
 
